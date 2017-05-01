@@ -62,7 +62,6 @@ module.exports = {
 
     return axios.get(encodedURI)
       .then(function(response){
-        console.log(response)
         return response.data.items;
       })
   }
