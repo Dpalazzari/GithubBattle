@@ -1,16 +1,16 @@
 var axios = require('axios');
-// var id = "YOUR_CLIENT_ID";
-// var sec = "YOUR_SECRET_ID";
-// var params = "?client_id=" + id + "&client_secret=" + sec;
+var id = "a403c714f63040d2f1b7";
+var sec = "bb631c2c8d6faf9edd51a041488317886a2d1829";
+var params = "?client_id=" + id + "&client_secret=" + sec;
 function getProfile(username){
-  return axios.get('https://api.github.com/users/' + username)
+  return axios.get('https://api.github.com/users/' + username + params)
     .then(function(user){
       return user.data;
     });
 }
 
 function getRepos(username){
-  axios.get('https://api.github.com/users/' + username + '/repos&per_page=100')
+  return axios.get('https://api.github.com/users/' + username + '/repos' + params + '&per_page=100');
 }
 
 function getStarCount(repos){
@@ -33,14 +33,14 @@ function handleError(error){
 function getUserData(player){
   return axios.all([
     getProfile(player),
-    getrepos(player)
+    getRepos(player)
   ]).then(function(data){
     var profile = data[0];
     var repos = data[1];
 
     return {
       profile: profile,
-      scores: calculateScore(profile, repos)
+      score: calculateScore(profile, repos)
     }
   })
 }
@@ -62,6 +62,7 @@ module.exports = {
 
     return axios.get(encodedURI)
       .then(function(response){
+        console.log(response)
         return response.data.items;
       })
   }
